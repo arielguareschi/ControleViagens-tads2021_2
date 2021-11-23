@@ -1,0 +1,227 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API com login e senha",
+        "description": "Minha api autenticada",
+        "contact": {
+            "name": "Ariel",
+            "email": "ariel@unisep.edu.br"
+        },
+        "version": "0.001-BETA"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/api",
+            "description": "URL da api"
+        }
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "tags": [
+                    "Usuários"
+                ],
+                "summary": "Cria um novo usuario",
+                "description": "Metodo utilizado para que um novo usuario possa ser criado",
+                "operationId": "register",
+                "requestBody": {
+                    "description": "Dados do usuario",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "status",
+                                            "type": "boolean"
+                                        },
+                                        "mensagem": {
+                                            "description": "mensagem",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Usuários"
+                ],
+                "summary": "Efetua o login",
+                "description": "Efetua o login na API",
+                "operationId": "login",
+                "requestBody": {
+                    "description": "usuario que vai efetuar o login",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "e-mail",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "senha",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "status",
+                                            "type": "boolean"
+                                        },
+                                        "mensagem": {
+                                            "description": "mensagem",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cidades": {
+            "get": {
+                "tags": [
+                    "Cidade"
+                ],
+                "summary": "Lista as cidades",
+                "description": "Lista todas as cidades",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "Realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Cidade"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Cidade": {
+                "title": "Cidade",
+                "properties": {
+                    "id": {
+                        "description": "ID da cidade",
+                        "type": "integer"
+                    },
+                    "nome": {
+                        "description": "Nome da cidade",
+                        "type": "string"
+                    },
+                    "uf": {
+                        "description": "UF da cidade",
+                        "type": "string"
+                    },
+                    "pais": {
+                        "description": "Pais da cidade",
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Cidade"
+                }
+            },
+            "User": {
+                "title": "Usuário",
+                "properties": {
+                    "id": {
+                        "description": "ID do Usuário",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Nome do Usuário",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "E-mail do Usuário",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "Senha do Usuário",
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Usuário"
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Chave de acesso para a api",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Usuários"
+        },
+        {
+            "name": "Cidade"
+        }
+    ],
+    "security": [
+        {
+            "bearer_token": {
+                "type": "apiKey",
+                "description": "Informe o token no formato (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    ]
+}
